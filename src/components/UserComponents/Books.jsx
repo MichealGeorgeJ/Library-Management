@@ -112,8 +112,8 @@ const Books = () => {
           {
             filteredBooks.map((book, id) => (
               <div className="col-sm-6 col-lg-4 mb-4" key={id}  >
-                <div className="card  p-2 d-flex flex-row " style={{ boxShadow: " rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset " }}>
-                  <div className="image w-50 d-flex "><img className='w-100 ' src={book.image} alt="img" />
+                <div className="card  p-2 d-flex flex-row h-100 " style={{ boxShadow: " rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset " }}>
+                  <div className="image w-100 d-flex "><img className='w-100 ' src={book.image} alt="img" />
 
                   </div>
                   <div>
