@@ -1,0 +1,246 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/* body{ 
+
+    height:100vh;
+    width:100vw;
+
+    background-image:url("src/assets/lib1.jpg") ;
+    background-size: contain;
+    background-repeat: no-repeat;
+} */
+
+.homePage{
+    height:120vh;
+    width:100vw;
+    background-image:url("https://wallpapercave.com/wp/ijo8KeK.jpg") ;
+   background-repeat: no-repeat;
+   background-size:auto;
+   background-size: cover;
+}
+.quates {
+    color:white;
+}
+.active {
+    color: #3ba83b;
+    font-size: x-large;
+    font-weight: 500;
+    margin-right: 2rem;
+    border-radius: 4px;
+}
+
+.active:hover {
+    background-color: #3ba83b;
+    color: white;
+}
+
+.login {
+    color: white;
+    background-color: #3ba83b;
+    font-size: x-large;
+    font-weight: 500;
+    margin-right: 4rem;
+    border-radius: 4px;
+    
+}
+
+.login:hover {
+    background-color: white;
+    color: #3ba83b;
+}
+
+.nav-position{
+    display:flex;
+    flex-direction:row;
+    justify-content: end;
+}
+
+
+.nav-bar{
+   position:fixed;
+}
+.admin-bar{
+    position:fixed;
+    width:15.5rem;
+    color:white;
+    height: 98vh;
+    border-radius:.5rem ;
+}
+.links{
+    text-decoration: none;
+}
+.routes{
+    display: inline-block;
+    /* border:1px solid #3ba83b; */
+    border-radius:.5rem ;
+    width: 16rem;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 500;
+    
+}
+.routes:hover {
+    background-color: white !important;
+    color: #3ba83b ;
+}
+.routes:hover .routes span,
+.routes:hover .routes span {
+  color: #3ba83b !important;
+}
+.routes h4:hover,
+.routes h3:hover{
+    color:#3ba83b;
+}
+
+
+
+.routes h3{
+    display: inline-block;
+}
+
+.routes h4{
+    display: inline-block;
+}
+.renewal:hover{
+    color:red;
+}
+.title{
+    color:white;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+.nav-icon{
+    font-size: 1.8rem;
+   
+}
+.admin-contents{
+    margin-left:1rem;
+}
+
+.form-control{
+    width:30.5rem;
+    border:1px solid #3ba83b;
+}
+
+.admin-contents{
+    margin-left:17rem !important;
+}
+
+.card-2{
+    border: 1px solid #3ba83b;
+    box-shadow:  #3ba83b 2.4px 2.4px 3.2px;
+
+}
+.form{
+    width:100%;
+    padding: .3rem;
+    border-radius:.3rem;
+    
+}
+.bending-book-table{
+    border-radius: .3rem !important;
+   
+}
+/* .input-length{
+    width:61rem;
+} */
+
+.logout{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    flex-direction:column;
+}
+.category{
+    width:16rem !important;
+    
+
+}
+.login-page{
+    margin-top:3rem !important ;
+}
+.center-notification{
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-left: 15.5rem;
+    margin-top: 10rem;
+}
+
+@media (max-width: 768px) {
+   
+
+    .admin-bar {
+      width: 4rem;
+      border: none;
+      
+    
+}
+.user-bio{
+    display:flex;
+    flex-wrap:wrap ;
+    width:20rem;
+}
+.nav-position{
+    display:none;
+    
+}
+
+.routes{
+    border:1px solid#3ba83b;
+    border-right: none;
+    width:4rem;
+    border-radius:.2rem;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  
+   
+}
+.title{
+  
+    padding: 1rem;
+}
+  
+    .admin-bar span {
+      display: none; /* Hide the span tag */
+    }
+    .admin-contents{
+        margin-left:5rem !important;
+    }
+   .nav-select{
+    width:18rem !important;
+   }
+   .margin{
+    margin: 0 !important;
+   }
+    .book-search{
+        display: flex;
+        flex-direction: column;
+        flex-wrap:wrap;
+        
+    }
+    .center-notification{
+        
+        margin-left: 2.2rem;
+        margin-top: 10rem;
+    }
+    .login-page{
+        margin-top:3rem !important ;
+    }
+    .active {
+        background-color: #3ba83b;
+        color: white;
+        font-size: x-large;
+        font-weight: 500;
+        margin-right: 2rem;
+        border-radius: 4px;
+    }
+    
+    .active:hover {
+        background-color: white;
+        color: #3ba83b;
+    }
+  }
