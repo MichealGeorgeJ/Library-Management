@@ -20,6 +20,7 @@ const AdminDashboard = ({ SetFines, setAllBooks, setAllUsers, allBooks, allUsers
   const navigate = useNavigate(); // Change to useNavigate
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -29,11 +30,22 @@ const AdminDashboard = ({ SetFines, setAllBooks, setAllUsers, allBooks, allUsers
   }, [user]);
 
   useEffect(() => {
+    // Check if the user is authorized from local storage
+    const storedAuthorized = localStorage.getItem('authorized');
+    if (storedAuthorized === 'true') {
+      setAuthorized(true);
+    } else {
+      setAuthorized(false);
+    }
+    setLoading(false); 
+  }, []);
+
+  useEffect(() => {
     // Show toast message for unauthorized access
     if (!authorized && location.pathname.startsWith('/admin')) {
       toast.error('You are not authorized to access this page.', {
         position: "top-center",
-        autoClose: false,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -55,6 +67,8 @@ const AdminDashboard = ({ SetFines, setAllBooks, setAllUsers, allBooks, allUsers
     const pathsToShowNavbar = ['/admin', ];
     setShowNavbar(pathsToShowNavbar.includes(location.pathname));
   }, [location]);
+
+  if (loading) return null;
 
   return (
     <div className='admin-dashboard row d-flex px-3 flex-row'>

@@ -1,25 +1,51 @@
-import React,{useState} from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { API_URL } from '../../App'
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import {API_URL} from '../../App'
+import { HashLoader } from 'react-spinners';
 
 const AddBook = () => {
-    
-    const Navigate=useNavigate()
-    const formik=useFormik({
-        initialValues:{
-            title:"",
-            author:"",
-            isbn:"",
-            category:"",
-            publicationDate:"",
-            dob:"",
-            bio:"",
-            image:"",
-            
+    const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const api = 'https://api.cloudinary.com/v1_1/dkwftase4/image/upload';
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'images_preset');
+
+            const response = await axios.post(api, formData);
+
+            console.log(response.data.secure_url); // Log the uploaded URL
+
+            return response.data.secure_url; // Return the uploaded URL
+        } catch (error) {
+            console.log(error)
+            return null;
+        }
+    };
+
+    const Navigate = useNavigate();
+    const formik = useFormik({
+        initialValues: {
+            title: '',
+            author: '',
+            isbn: '',
+            category: '',
+            publicationDate: '',
+            dob: '',
+            bio: '',
+            image: '',
+            pdfFile: null,
         },
         validationSchema:Yup.object({
             title:Yup.string().required('Title is required'),
@@ -30,33 +56,51 @@ const AddBook = () => {
             dob:Yup.date().required("Enter a author's DoB"),
             bio:Yup.string().required("Enter a short bio of author").min(30,"Minimum 30 character"),
             image:Yup.string().url().required("Enter a valid image URL"),
+           
 
 
         }),
-        onSubmit:async(values)=>{
-            try{
-                const res= await axios.post(`${API_URL}/books`,values)
-                if(res.status===200){
-                    toast.success("book added")
-                    Navigate('/admin/books')
-                   
+        onSubmit: async (values) => {
+            console.log(values)
+            try {
+                console.log(values);
+                const uploadUrl = await handleUpload(); // Upload the file and get URL
+
+                if (uploadUrl !== null) {
+                    values.pdfFile = uploadUrl; // Set the uploaded URL to formik values
+                    const res = await axios.post(`${API_URL}/books`, values);
+                    if (res.status === 200) {
+                        setLoading(false);
+
+                       toast.success('Book added');
+                        Navigate('/admin/books');
+                        
+                    }
                 }
-            }catch(error){
-              console.log(error)
-                toast.error("error")
+            } catch (error) {
+                console.log(error);
+                toast.error('Error');
             }
-        }
-
-    })
-
-  return (
-    <div>
-       <h1 className=" ml-4 text-success mt-2" >Add Book</h1>
-       <h1 ><hr className=' ml-3 text-success bg-success' /></h1>
-        <div className=" mx-5  mt-4"  >
-        
-            <div className="row d-flex flex-column">
-               
+            finally {
+                setLoading(false);
+            }
+        },
+    });
+    return (
+        <div>
+                {loading && (
+    <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style={{ zIndex: 999 }}>
+        <HashLoader color={'#28a745'} loading={loading} size={50} />
+    </div>
+)}
+           <div className='title1 mt-2 '>
+           <h1 className="ml-4 text-success  bg-white ">Add Book</h1>
+            <h1>
+                <hr className="ml-3 text-success bg-success" />
+            </h1>
+           </div>
+            <div className="mx-5  ">
+                <div className="row d-flex flex-column">
                 <form onSubmit={formik.handleSubmit} action="">
                     <div className="">
                         <div className="form-group">
@@ -129,13 +173,20 @@ const AddBook = () => {
                 value={formik.values.image} />
                         {formik.touched.image && formik.errors.image ?(<div style={{color:"red"}} > {formik.errors.image} </div>):null}
                     </div>
+                    <div className="form-group">
+                        <label htmlFor="image">Select File</label>
+                        <input  type="file" accept=".pdf" className="form-control " id='pdfFile' name='pdfFile' onChange={handleFileChange}
+                onBlur={formik.handleBlur}
+                />
+                        {formik.touched.pdfFile && formik.errors.pdfFile ?(<div style={{color:"red"}} > {formik.errors.pdfFile} </div>):null}
+                    </div>
                     <div className='d-flex justify-content-center align-items-center mb-5 '><button className="btn btn-outline-success w-50 " type='submit'>Add Book</button></div>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
-    </div>
-  )
-}
+    );
+};
 
-export default AddBook
+export default AddBook;

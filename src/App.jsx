@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Contetnt from './components/Content';
 import Login from './components/Login';
@@ -32,7 +32,10 @@ const AppContent = () => {
   const [issuedbooks, setIssuedBooks] = useState(15);
   const [renewedBooks, setRenewedBooks] = useState(10);
   const [user, setUser] = useState(null);
-  const [authorized, setAuthorized] = useState(false)
+  const [authorized, setAuthorized] = useState(() => {
+    const storedAuthorized = localStorage.getItem('authorized');
+    return storedAuthorized === 'true';
+});
 
   useEffect(() => {
     // Function to update user state from localStorage
@@ -59,6 +62,17 @@ const AppContent = () => {
     const pathsToShowNavbar = ['/', '/login', '/register'];
     setShowNavbar(pathsToShowNavbar.includes(location.pathname));
   }, [location]);
+
+  useEffect(() => {
+    // Check if the user is authorized from local storage
+    const storedAuthorized = localStorage.getItem('authorized');
+    if (storedAuthorized === 'true') {
+      setAuthorized(true);
+    } else {
+      setAuthorized(false);
+    }
+     
+  }, []);
 
   return (
     <div className={showNavbar ? 'homePage' : ''}>
@@ -88,6 +102,7 @@ const AppContent = () => {
           />}
         />
         <Route path="/user/*" element={<UserDashboard setUser={setUser} authorized={authorized} user={user} setAuthorized={setAuthorized}  />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
       {showNavbar && <Magazines/>}
       {showNavbar && <Footer/>}

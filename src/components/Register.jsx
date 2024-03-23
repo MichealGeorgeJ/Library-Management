@@ -35,6 +35,7 @@ const Register = ({setUser,setAuthorized}) => {
                     const storedUser = localStorage.getItem('user');
 if (storedUser!==undefined) {
 setUser(JSON.parse(storedUser))
+localStorage.setItem('authorized', 'true');
 setAuthorized(true)
 }
                     toast.success('User details fetched');

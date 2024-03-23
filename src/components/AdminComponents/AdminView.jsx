@@ -3,11 +3,11 @@ import React from 'react'
 const AdminView = ({allBooks,allUsers,fines,allMagazines,bendingBooks,issuedbooks,renewedBooks}) => {
   return (
     <div>
-      <div className="dash-top">
-      <h1 className=" text-success  mt-2">Dashboard</h1>
-      </div>
-      <h1 ><hr className='  text-success bg-success' /></h1>
-     <div className="dashboard  mt-4 ">
+      <div className=" ">
+      <h1 className=" text-success bg-white  mt-3">Dashboard</h1>
+      
+      <h1 ><hr className='bg-success' /></h1></div>
+     <div className="dashboard contents1  mt-4 ">
       <div className="row d-flex  justify-content-between  text-white ">
       <div className="col-lg-4 col-sm-11 mb-4  ">
           <div className="card bg-success px-3 py-2   ">

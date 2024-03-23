@@ -35,6 +35,19 @@
     background-color: #3ba83b;
     color: white;
 }
+.loader{
+    position: fixed !important;
+    left: 60rem;
+    top: 18rem;
+    z-index: 2;
+        
+}
+.edit-submit{
+    margin-left: 12rem !important;
+    width: 30rem !important;
+   
+}
+
 
 .login {
     color: white;
@@ -178,6 +191,13 @@
       
     
 }
+.loader{
+    position: absolute !important;
+    left: 3rem;
+    top: 4rem;
+        
+}
+
 .user-bio{
     display:flex;
     flex-wrap:wrap ;
@@ -242,5 +262,9 @@
     .active:hover {
         background-color: white;
         color: #3ba83b;
+    }
+    .edit-submit{
+        margin-left:0rem !important;
+        width:15rem !important;
     }
   }

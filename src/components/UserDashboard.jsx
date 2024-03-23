@@ -10,17 +10,27 @@ import Notification from './UserComponents/Notification';
 import EditUser from './UserComponents/EditUser';
 import { toast } from 'react-toastify';
 
-const UserDashboard = ({ setUser, user,authorized }) => {
+const UserDashboard = ({ setUser, user,authorized,setAuthorized }) => {
   const [showNavbar, setShowNavbar] = useState(false);
   
   const location = useLocation();
+
+  useEffect(() => {
+    // Check if the user is authorized from local storage
+    const storedAuthorized = localStorage.getItem('authorized');
+    if (storedAuthorized === 'true') {
+      setAuthorized(true);
+    } else {
+      setAuthorized(false);
+    }
+  }, []);
 
   useEffect(() => {
     // Check if the user is logged in and has user privileges
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const isUser = storedUser && storedUser.role === 'user';
    
-  }, [user]); // Add user to the dependency array
+  }, [user]); // Add user to the dependency arrayf
 
   useEffect(() => {
     // Show toast message for unauthorized access
@@ -28,7 +38,7 @@ const UserDashboard = ({ setUser, user,authorized }) => {
       toast.error(`You are not authorized to access this page.
       Please Login`, {
         position: "top-center",
-        autoClose: false,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

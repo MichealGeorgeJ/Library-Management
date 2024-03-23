@@ -68,7 +68,7 @@ const Books = () => {
 
   return (
     <div>
-      <div className='d-flex align-items-baseline mt-1 book-search  '>
+      <div className='d-flex align-items-center  book-search  '>
         <div><h1 className="text-success ml-3 ">All Books</h1></div>
         <div className='ml-5 margin'>
           <form onSubmit={formik.handleSubmit} className="form-inline my-2 my-lg-0">
@@ -94,7 +94,6 @@ const Books = () => {
                   <option value="Finance">Finance</option>
                   <option value="Cooking">Cooking</option>
                   <option value="Biography">Biography</option>
-                  <option value="Science Fiction">Science Fiction</option>
                   <option value="Education">Education</option>
                 </select>
                 {formik.touched.category && formik.errors.category ? (
@@ -116,12 +115,18 @@ const Books = () => {
                   <div className="image w-100 d-flex "><img className='w-100 ' src={book.image} alt="img" />
 
                   </div>
-                  <div>
+                  <div className='d-flex justify-content-between align-items-end'>
                     <div className='p-2'>
                       <h4> {book.title} </h4>
                       <h6> -{book.author} </h6>
                       <p>ISBN :  {book.isbn} </p>
+                      <div className=' d-flex flex-row justify-content-end align-items-end   text-white'>
+                  <button className='btn btn-success'>
+                    <a  className=' text-white' style={{textDecoration:'none'}} href={book.pdfFile}> View & Download</a>
+                  </button>
+                </div>
                     </div>
+                    
                   </div>
                 </div>
               </div>

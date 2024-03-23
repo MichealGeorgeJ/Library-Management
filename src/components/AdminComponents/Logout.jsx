@@ -9,6 +9,7 @@ const Logout = ({setAuthorized} ) => {
    
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('authorized');
     setAuthorized(false)
    
     toast.success("Logged out successfully");

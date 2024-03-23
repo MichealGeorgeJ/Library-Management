@@ -54,14 +54,15 @@ useEffect(()=>{
         <div className="row d-flex justify-content-between">
           {
             books.map((book,id)=>(
-              <div className="col-sm-12 col-lg-6 mb-4" key={id}  >
-            <div className="card h-100 p-2 d-flex flex-row" style={{boxShadow:" rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset "}}>
+              <div className="col-sm-12 col-lg-6 mb-4 " key={id}  >
+            <div className="card p-3  h-100 p-2 d-flex flex-row" style={{boxShadow:" rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset "}}>
             <div className="image w-50 d-flex justify-content-between flex-column"><img className='w-100 ' src={book.image} alt="img" />
             <div className="buttons d-flex">
                 <div><button className="btn btn-primary ml-2 mr-2" onClick={()=>Navigate(`/admin/edit/${book._id}`)} ><i className="fa-solid fa-pen-to-square"></i> Edit</button></div>
                <div> <button className="btn btn-danger" onClick={()=>handleDelete(book._id)} ><i className="fa-solid fa-trash"></i> Delete</button></div>
               </div>
             </div>
+              <div className="d-flex justify-content-between flex-column align-items-end">
               <div className="contents ml-2">
                 <h4>{book.title}</h4>
                 <p>Author :{book.author} </p>
@@ -71,7 +72,14 @@ useEffect(()=>{
                 <h5><i className="fa-regular fa-address-card"></i> About Author</h5>
                 <p>{book.bio} </p>
                 <p><i className="fa-solid fa-calendar-days"></i>DoB : {book.dob}</p>
+              
 
+              </div>
+              <div className=' d-flex flex-row justify-content-end align-items-end   text-white'>
+                  <button className='btn btn-success'>
+                    <a  className=' text-white' style={{textDecoration:'none'}} href={book.pdfFile}> View & Download</a>
+                  </button>
+                </div>
               </div>
               
 

@@ -88,7 +88,11 @@ const IssueBooks = () => {
   return (
     
    <div> 
-    <h1 className="text-success mt-3 ml-3 mt-2"> Book Entry</h1>
+     <h1 className="text-success mt-3 ml-3 mt-2"> Book Entry</h1>
+            <h1>
+                <hr className="ml-3 text-success bg-success" />
+            </h1>
+    
     
     <div className=' ' >
    

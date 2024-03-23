@@ -63,8 +63,9 @@ const Login = ({ setUser,user,setAuthorized }) => {
                             setUser(res2.data.user);
                             localStorage.setItem('user', JSON.stringify(res2.data.user));
                             const storedUser = localStorage.getItem('user');
-      if (storedUser!==undefined) {
+      if (storedUser!==null) {
         setUser(JSON.parse(storedUser))
+        localStorage.setItem('authorized', 'true');
         setAuthorized(true)
       }
                             

@@ -5,7 +5,33 @@ import { useNavigate,useParams } from 'react-router-dom'
 import { API_URL } from '../../App'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { HashLoader } from 'react-spinners';
 const Add = () => {
+    const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const api = 'https://api.cloudinary.com/v1_1/dkwftase4/image/upload';
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'images_preset');
+
+            const response = await axios.post(api, formData);
+
+            console.log(response.data.secure_url); // Log the uploaded URL
+
+            return response.data.secure_url; // Return the uploaded URL
+        } catch (error) {
+           console.log(error)
+            return null;
+        }
+    };
     const params=useParams()
     const Navigate=useNavigate()
     const [initialValues,setValues]=useState({
@@ -17,6 +43,7 @@ const Add = () => {
       dob:"",
       bio:"",
       image:"",
+      pdfFile:null
 
     })
     const getBook=async()=>{
@@ -27,7 +54,7 @@ const Add = () => {
         console.log(`${API_URL}/books/${id}`)
         console.log(res)
         if(res.status===200){
-toast.success("edit get")
+
           setValues({
       title:res.data.book.title,
       author:res.data.book.author,
@@ -36,7 +63,8 @@ toast.success("edit get")
 publicationDate:res.data.book.publicationDate,
       dob:res.data.book.dob,
       bio:res.data.book.bio,
-      image:res.data.book.image
+      image:res.data.book.image,
+      pdfFile:res.data.book.pdfFile,
           })
         }
       }
@@ -57,26 +85,39 @@ publicationDate:res.data.book.publicationDate,
             dob:Yup.string().required("Enter a author's DoB"),
             bio:Yup.string().required("Enter a short bio of author").min(30,"Minimum 30 character"),
             image:Yup.string().url().required("Enter a valid image URL"),
+            
+
 
 
         }),enableReinitialize:true,
         onSubmit:async(values)=>{
             try{
                 const {id}=params
-                console.log(`${API_URL}/books/${id}`)
-                console.log(values)
-                
-                
-              
-              const res=await axios.put(`${API_URL}/books/${id}`,values)
-                console.log(res)
-                if(res.status===200){
-                    Navigate('/admin/books');             toast.success("updated")
-
+                const uploadUrl = await handleUpload();
+                if(uploadUrl){
+                    values.pdfFile = uploadUrl;
+                    console.log(`${API_URL}/books/${id}`)
+                    console.log(values)
                     
+                    
+                  
+                  const res=await axios.put(`${API_URL}/books/${id}`,values)
+                    console.log(res)
+                    if(res.status===200){
+                        setLoading(false); 
+                        toast.success("updated");
+                        Navigate('/admin/books');             
+    
+                        
+                    }
                 }
+                
+ 
             }catch(error){
                 toast.error("error")
+            }
+            finally {
+                setLoading(false); 
             }
         }
 
@@ -87,10 +128,19 @@ publicationDate:res.data.book.publicationDate,
       },[params.id])
   return (
     <div>
+          {loading && (
+    <div className="position-fixed  w-75 w-100   h-100 d-flex justify-content-center align-items-center  " style={{ zIndex: 999 }}>
+        <HashLoader color={'#28a745'} loading={loading} size={70} />
+    </div>
+)}
+          <h1 className="ml-4 text-success mt-3">Edit Book</h1>
+            <h1>
+                <hr className="ml-3 text-success bg-success" />
+            </h1>
         <div className="container">
             <div className="row d-flex flex-column">
-                <form onSubmit={formik.handleSubmit} action=""><div className="col-lg-6 col-sm-12">
-                    
+                <form onSubmit={formik.handleSubmit} action=""><div className="col-lg-6 col-sm-12 justify-content-center">
+               
                 <div className="form-group">
                         <label htmlFor="title">Title</label>
                         <input type="text" className="form-control" id='title' name='title' onChange={formik.handleChange}
@@ -161,7 +211,16 @@ publicationDate:res.data.book.publicationDate,
                 value={formik.values.image} />
                         {formik.touched.image && formik.errors.image ?(<div style={{color:"red"}} > {formik.errors.image} </div>):null}
                     </div>
-                    <div className='d-flex justify-content-center '><button className="btn btn-primary w-50 mb-5" type='submit'>Submit</button></div>
+                    <div className="form-group">
+                        <label htmlFor="image">Select File</label>
+                        <input  type="file" accept=".pdf" className="form-control" id='pdfFile' name='pdfFile' onChange={handleFileChange}
+                onBlur={formik.handleBlur}
+                />
+                        {formik.touched.pdfFile && formik.errors.pdfFile ?(<div style={{color:"red"}} > {formik.errors.pdfFile} </div>):null}
+                    </div>
+                   
+                   <div className='d-flex justify-content-center align-items-center w-50   '><button  className="btn btn-outline-success w-100 edit-submit   mb-5" type='submit'>Submit</button></div>
+                  
                 </div>
                 </form>
             </div>
